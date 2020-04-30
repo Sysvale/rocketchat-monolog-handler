@@ -1,0 +1,22 @@
+{
+    "name": "sysvale/rocketchat-monolog-handler",
+    "description": "A Rocket.chat Monolog Handler meant to be used in Laravel projects developed by Sysvale Softgroup",
+    "type": "library",
+    "require": {
+        "monolog/monolog": "^2.0",
+        "guzzlehttp/guzzle": "^6.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Esron Dtamar",
+            "email": "esron.dtamar@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sysvale\\Logging\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
