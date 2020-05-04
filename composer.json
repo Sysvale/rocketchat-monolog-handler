@@ -3,7 +3,7 @@
     "description": "A Rocket.chat Monolog Handler meant to be used in Laravel projects developed by Sysvale Softgroup",
     "type": "library",
     "require": {
-        "monolog/monolog": "^2.0",
+        "monolog/monolog": "^1.12",
         "guzzlehttp/guzzle": "^6.0"
     },
     "license": "MIT",
