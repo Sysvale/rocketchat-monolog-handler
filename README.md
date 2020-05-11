@@ -29,8 +29,8 @@ Adicione o código abaixo ao Array de `channels` no arquivo `logging.php`
     'handler' => RocketChatHandler::class,
     'with' => [
         'webhooks' => [env('ROCKET_CHAT_WEBHOOK', '')],
+        'level' => 'warning',
     ],
-    'level' => 'warning',
 ],
 ```
 
