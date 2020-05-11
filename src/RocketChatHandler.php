@@ -61,7 +61,9 @@ class RocketChatHandler extends AbstractProcessingHandler
             "attachments" => [
                 [
                     "title" => $record['level_name'] ?? '',
-                    "text" => $record['context']['exception']->__toString() ?? '',
+                    "text" => !empty($record['context']['exception'])
+                        ? $record['context']['exception']->__toString()
+                        : '',
                     "color" => $this->levelColors[$level],
                 ],
             ],
