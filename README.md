@@ -1,6 +1,6 @@
 # [Rocket.chat](https://rocket.chat/) Monolog Handler by Sysvale
 
-Monolog Handler para ser usado em projetos Laravel.
+Monolog Handler para ser usado em projetos Laravel. Adaptado da implementação para Slack.
 
 Inspirado nos seguintes projetos:
  - https://github.com/beeproger/rocketchat-monolog-handler
