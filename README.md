@@ -81,6 +81,8 @@ class Script {
     return {
       content:{
         text: request.content.text,
+        username: request.content.username,
+        emoji: request.content.emoji,
         attachments: request.content.attachments
        }
     };
