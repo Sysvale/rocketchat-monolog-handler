@@ -19,6 +19,11 @@ class RocketChatHandler extends AbstractProcessingHandler
     private $webhooks;
 
     /**
+     * @var string
+     */
+    private $username;
+
+    /**
      * Colors for a given log level.
      *
      * @var array
@@ -38,14 +43,20 @@ class RocketChatHandler extends AbstractProcessingHandler
      * RocketChatHandler constructor.
      *
      * @param array $webhooks
+     * @param string $username
      * @param int $level
      * @param bool $bubble
      */
-    public function __construct(array $webhooks, $level = Logger::DEBUG, bool $bubble = true)
-    {
+    public function __construct(
+        array  $webhooks,
+        string $username = null,
+        int    $level = Logger::DEBUG,
+        bool   $bubble = true
+    ) {
         parent::__construct($level, $bubble);
         $this->client = new Client();
         $this->webhooks = $webhooks;
+        $this->username = $username;
     }
 
     /**
