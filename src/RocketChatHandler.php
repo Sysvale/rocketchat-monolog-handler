@@ -44,7 +44,7 @@ class RocketChatHandler extends AbstractProcessingHandler
         array  $webhooks,
         string $username = null,
         string $emoji = null,
-        int    $level = Logger::DEBUG,
+        int    $level = Logger::ERROR,
         bool   $bubble = true
     ) {
         parent::__construct($level, $bubble);
