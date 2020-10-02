@@ -40,7 +40,7 @@ class RocketChatRecordTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected , $rocketChatRecord->getRocketChatData($record));
+        $this->assertEquals($expected, $rocketChatRecord->getRocketChatData($record));
     }
 
     public function testWithoutUsernameAndEmojiAndFormatter(): void
@@ -64,7 +64,7 @@ class RocketChatRecordTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected , $rocketChatRecord->getRocketChatData($record));
+        $this->assertEquals($expected, $rocketChatRecord->getRocketChatData($record));
     }
 
     public function testWithoutUsernameAndEmojiAndFormatterAndRecordHasExtraAndContent(): void
@@ -140,7 +140,7 @@ class RocketChatRecordTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected , $rocketChatRecord->getRocketChatData($record));
+        $this->assertEquals($expected, $rocketChatRecord->getRocketChatData($record));
     }
 
     public function testWithoutUsernameAndEmojiAndFormatterAndRecordHasExtraAndContentAndAreArraysWithNonNumericKeys(): void
@@ -186,7 +186,7 @@ class RocketChatRecordTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected , $rocketChatRecord->getRocketChatData($record));
+        $this->assertEquals($expected, $rocketChatRecord->getRocketChatData($record));
     }
 
     private function getFormatter(): FormatterInterface
@@ -204,6 +204,4 @@ class RocketChatRecordTest extends TestCase
             }
         };
     }
-
-
 }
