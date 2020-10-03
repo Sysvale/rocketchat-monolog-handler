@@ -1,0 +1,39 @@
+name: Monolog Handler CI
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+  pull_request:
+    branches:
+      - master
+    path-ignore:
+      - 'docs/**'
+      - '*.md'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    container: php:7.4-cli-buster
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache composer dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-composer
+      with:
+        path: ~/vendor
+        key: ${{ env.cache-name }}
+        restore-keys: |
+          ${{ env.cache-name }}-
+
+    - name: Install dependencies
+      uses: php-actions/composer@v2
+
+    - name: Test with phpunit
+      run: ./vendor/bin/phpunit tests/ --colors=never
