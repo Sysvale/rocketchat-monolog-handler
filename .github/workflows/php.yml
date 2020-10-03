@@ -33,6 +33,7 @@ jobs:
           ${{ env.cache-name }}-
 
     - name: Install dependencies
+      uses: php-actions/composer@v2
       run: composer install
 
     - name: Test with phpunit
