@@ -7,12 +7,13 @@ namespace Tests;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Level;
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
+use Monolog\Test\MonologTestCase;
 use ReflectionObject;
 use Sysvale\Logging\RocketChatHandler;
 
-class RocketChatHandlerTest extends TestCase
+class RocketChatHandlerTest extends MonologTestCase
 {
     public function testHandleWithoutWebhooks(): void
     {
@@ -20,16 +21,14 @@ class RocketChatHandlerTest extends TestCase
             [],
             'username',
             'emoji',
-            Logger::DEBUG
+            Level::Debug,
         );
 
         $rocketChatHandler->setFormatter($this->getFormatter());
 
-        $record = [
-            'level' => Logger::DEBUG,
-            'level_name' => 'debug',
-            'message' => 'test',
-        ];
+        $record = $this->getRecord(
+            level: Level::Debug,
+        );
 
 
         $this->assertFalse($rocketChatHandler->handle($record));
@@ -41,7 +40,7 @@ class RocketChatHandlerTest extends TestCase
             ['/test'],
             'username',
             'emoji',
-            Logger::DEBUG
+            Level::Debug
         );
 
         $client = $this->createMock(ClientInterface::class);
@@ -52,12 +51,9 @@ class RocketChatHandlerTest extends TestCase
 
         $rocketChatHandler->setFormatter($this->getFormatter());
 
-        $record = [
-            'level' => Logger::DEBUG,
-            'level_name' => 'debug',
-            'message' => 'test',
-        ];
-
+        $record = $this->getRecord(
+            level: Level::Debug,
+        );
 
         $this->assertFalse($rocketChatHandler->handle($record));
     }

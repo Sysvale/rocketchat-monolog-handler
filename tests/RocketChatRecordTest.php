@@ -3,11 +3,13 @@
 namespace Tests;
 
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Level;
 use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
+use Monolog\LogRecord;
+use Monolog\Test\MonologTestCase;
 use Sysvale\Logging\RocketChatRecord;
 
-class RocketChatRecordTest extends TestCase
+class RocketChatRecordTest extends MonologTestCase
 {
     public function testWithUsernameAndEmojiAndFormatter(): void
     {
@@ -19,10 +21,11 @@ class RocketChatRecordTest extends TestCase
             $formatter
         );
 
-        $record = [
-            'level_name' => 'debug',
-            'level' => Logger::DEBUG,
-        ];
+        $record = $this->getRecord(
+            level: Level::Debug,
+            message: 'this is a test',
+        );
+
 
         $expected = [
             'username' => 'username',
@@ -30,11 +33,8 @@ class RocketChatRecordTest extends TestCase
             'attachments' => [
                 [
                     'fields' => [],
-                    'text' => [
-                        'level_name' => 'debug',
-                        'level' => Logger::DEBUG,
-                    ],
-                    'title' => 'debug',
+                    'text' => $record,
+                    'title' => Level::Debug->getName(),
                     'color' => '#9E9E9E',
                 ],
             ],
@@ -47,18 +47,17 @@ class RocketChatRecordTest extends TestCase
     {
         $rocketChatRecord = new RocketChatRecord();
 
-        $record = [
-            'level_name' => 'debug',
-            'level' => Logger::DEBUG,
-            'message' => 'this is a test',
-        ];
+        $record = $this->getRecord(
+            level: Level::Debug,
+            message: 'this is a test',
+        );
 
         $expected = [
             'attachments' => [
                 [
                     'fields' => [],
                     'text' => 'this is a test',
-                    'title' => 'debug',
+                    'title' => Level::Debug->getName(),
                     'color' => '#9E9E9E',
                 ],
             ],
@@ -71,13 +70,11 @@ class RocketChatRecordTest extends TestCase
     {
         $rocketChatRecord = new RocketChatRecord();
 
-        $record = [
-            'level_name' => 'debug',
-            'level' => Logger::DEBUG,
-            'message' => 'this is a test',
-            'extra' => ['extra#1' => 'read all about it'],
-            'content' => ['some content here'],
-        ];
+        $record = $this->getRecord(
+            level: Level::Debug,
+            message: 'this is a test',
+            extra: ['extra#1' => 'read all about it'],
+        );
 
         $expected = [
             'attachments' => [
@@ -91,7 +88,7 @@ class RocketChatRecordTest extends TestCase
 
                     ],
                     'text' => 'this is a test',
-                    'title' => 'debug',
+                    'title' => Level::Debug->getName(),
                     'color' => '#9E9E9E',
                 ],
             ],
@@ -104,23 +101,16 @@ class RocketChatRecordTest extends TestCase
     {
         $rocketChatRecord = new RocketChatRecord();
 
-        $record = [
-            'level_name' => 'debug',
-            'level' => Logger::DEBUG,
-            'message' => 'this is a test',
-            'extra' => [
+        $record = $this->getRecord(
+            level: Level::Debug,
+            message: 'this is a test',
+            extra: [
                 'extra#1' => [
                     'read all about it',
                     'or not',
                 ]
             ],
-            'content' => [
-                [
-                    'some content here',
-                    'another here',
-                ],
-            ],
-        ];
+        );
 
         $expected = [
             'attachments' => [
@@ -134,7 +124,7 @@ class RocketChatRecordTest extends TestCase
 
                     ],
                     'text' => 'this is a test',
-                    'title' => 'debug',
+                    'title' => Level::Debug->getName(),
                     'color' => '#9E9E9E',
                 ],
             ],
@@ -147,23 +137,16 @@ class RocketChatRecordTest extends TestCase
     {
         $rocketChatRecord = new RocketChatRecord();
 
-        $record = [
-            'level_name' => 'debug',
-            'level' => Logger::DEBUG,
-            'message' => 'this is a test',
-            'extra' => [
+        $record = $this->getRecord(
+            level: Level::Debug,
+            message: 'this is a test',
+            extra: [
                 'extra#1' => [
                     'a' => 'read all about it',
                     'b' => 'or not',
                 ]
             ],
-            'content' => [
-                [
-                    'some content here',
-                    'another here',
-                ],
-            ],
-        ];
+        );
 
         $expected = [
             'attachments' => [
@@ -180,7 +163,7 @@ class RocketChatRecordTest extends TestCase
 
                     ],
                     'text' => 'this is a test',
-                    'title' => 'debug',
+                    'title' => Level::Debug->getName(),
                     'color' => '#9E9E9E',
                 ],
             ],
@@ -193,7 +176,7 @@ class RocketChatRecordTest extends TestCase
     {
         return new class implements FormatterInterface {
 
-            public function format(array $record)
+            public function format(LogRecord $record)
             {
                 return $record;
             }

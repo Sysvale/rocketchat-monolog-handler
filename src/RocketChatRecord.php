@@ -4,7 +4,9 @@ namespace Sysvale\Logging;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\NormalizerFormatter;
+use Monolog\Level;
 use Monolog\Logger;
+use Monolog\LogRecord;
 use Monolog\Utils;
 
 /**
@@ -43,20 +45,20 @@ class RocketChatRecord
      * @var array
      */
     private $levelColors = [
-        Logger::DEBUG     => "#9E9E9E",
-        Logger::INFO      => "#4CAF50",
-        Logger::NOTICE    => "#607D8B",
-        Logger::WARNING   => "#FFEB3B",
-        Logger::ERROR     => "#F44336",
-        Logger::CRITICAL  => "#F44336",
-        Logger::ALERT     => "#F44336",
-        Logger::EMERGENCY => "#F44336",
+        Level::Debug->value     => "#9E9E9E",
+        Level::Info->value      => "#4CAF50",
+        Level::Notice->value    => "#607D8B",
+        Level::Warning->value   => "#FFEB3B",
+        Level::Error->value     => "#F44336",
+        Level::Critical->value  => "#F44336",
+        Level::Alert->value     => "#F44336",
+        Level::Emergency->value => "#F44336",
     ];
 
     public function __construct(
-        string $username = null,
-        string $emoji = null,
-        FormatterInterface $formatter = null
+        ?string $username = null,
+        ?string $emoji = null,
+        ?FormatterInterface $formatter = null
     ) {
         $this->username = $username;
         $this->emoji = $emoji;
@@ -65,7 +67,7 @@ class RocketChatRecord
         $this->normalizerFormatter = new NormalizerFormatter();
     }
 
-    public function getRocketChatData(array $record)
+    public function getRocketChatData(LogRecord $record)
     {
         $dataArray = array();
         $attachment = array(
@@ -113,7 +115,7 @@ class RocketChatRecord
      */
     public function stringify($fields)
     {
-        $normalized = $this->normalizerFormatter->format($fields);
+        $normalized = $this->normalizerFormatter->normalizeValue($fields);
         $prettyPrintFlag = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 128;
         $flags = 0;
         if (PHP_VERSION_ID >= 50400) {
@@ -159,7 +161,7 @@ class RocketChatRecord
     private function generateAttachmentFields(array $data)
     {
         $fields = array();
-        foreach ($this->normalizerFormatter->format($data) as $key => $value) {
+        foreach ($this->normalizerFormatter->normalizeValue($data) as $key => $value) {
             $fields[] = $this->generateAttachmentField($key, $value);
         }
 

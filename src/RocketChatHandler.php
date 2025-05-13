@@ -4,7 +4,9 @@ namespace Sysvale\Logging;
 
 use GuzzleHttp\Client;
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Level;
 use Monolog\Logger;
+use Monolog\LogRecord;
 use Sysvale\Logging\RocketChatRecord;
 
 class RocketChatHandler extends AbstractProcessingHandler
@@ -42,9 +44,9 @@ class RocketChatHandler extends AbstractProcessingHandler
      */
     public function __construct(
         array  $webhooks,
-        string $username = null,
-        string $emoji = null,
-        int    $level = Logger::ERROR,
+        ?string $username,
+        ?string $emoji,
+        $level = Level::Error,
         bool   $bubble = true
     ) {
         parent::__construct($level, $bubble);
@@ -65,7 +67,7 @@ class RocketChatHandler extends AbstractProcessingHandler
      * @param array $record
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         $content = $this->rocketChatRecord->getRocketChatData($record);
 
