@@ -17,7 +17,7 @@ jobs:
 
     runs-on: ubuntu-20.04
 
-    container: php:8.0-cli-buster
+    container: php:8.3-cli-bullseye
 
     steps:
     - uses: actions/checkout@v2
