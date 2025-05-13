@@ -8,32 +8,45 @@ on:
   pull_request:
     branches:
       - master
-    path-ignore:
+    paths-ignore:
       - 'docs/**'
       - '*.md'
 
 jobs:
   build:
-
     runs-on: ubuntu-24.04
 
-    container: php:8.3-cli-bullseye
+    container:
+      image: php:8.3-cli-bullseye
 
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Cache composer dependencies
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-composer
-      with:
-        path: ~/vendor
-        key: ${{ env.cache-name }}
-        restore-keys: |
-          ${{ env.cache-name }}-
+      - name: Install system dependencies
+        run: |
+          apt-get update && apt-get install -y \
+            git \
+            unzip \
+            zip \
+            libzip-dev \
+            && docker-php-ext-install zip
 
-    - name: Install dependencies
-      uses: php-actions/composer@v2
+      - name: Set up cache for composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.composer/cache
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            composer-
 
-    - name: Test with phpunit
-      run: ./vendor/bin/phpunit tests/ --colors=never
+      - name: Install Composer
+        run: |
+          curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run PHPUnit tests
+        run: ./vendor/bin/phpunit tests/ --colors=never
