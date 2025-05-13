@@ -23,6 +23,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install system dependencies
+        run: |
+          apt-get update && apt-get install -y \
+            git \
+            unzip \
+            zip \
+            libzip-dev \
+            && docker-php-ext-install zip
+
       - name: Set up cache for composer dependencies
         uses: actions/cache@v4
         with:
